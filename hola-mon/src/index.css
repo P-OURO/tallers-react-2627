@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@layer components {
+    .title-100 {@apply font-extrabold text-xl}
+    .title-500 {@apply font-extrabold text-5xl}
+
+    body {@apply bg-[#dfeebd]}
+
+
+    .container {@apply
+        min-h-screen
+        content-center
+        justify-self-center
+        text-center
+    }
+    
+    .content {@apply 
+        flex flex-wrap flex-col
+        bg-[#dfbcf0] 
+        p-5
+        w-100
+        h-50
+        justify-self-center
+        text-center
+        shadow-2xl
+        rounded-2xl
+    }
+
+    .container-buttons {@apply mt-5 gap-2 flex justify-center}
+
+    .container-buttons button {@apply 
+        p-2
+        border-2 rounded border-amber-50
+        hover:shadow-2xl 
+        font-bold
+        bg-amber-200 hover:bg-cyan-300 focus:bg-indigo-500
+        cursor-pointer
+    }
+}
