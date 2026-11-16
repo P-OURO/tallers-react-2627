@@ -1,19 +1,15 @@
 import { useState } from 'react'
+import Comptador from './components/Comptador';
 
 function App() {
   const [comptador, setComptador] = useState(0)
 
-  //El valor de comptador no se actualizará hasta que no salga de la función por asincronía (no cambia comptador al instante) y la función seguirá viendo el valor anterior del render actual.
-  function incrementar(){
-    setComptador((valor) => valor + 1);
-  }
-
-  function decrementar() {
-    setComptador((valor) => valor - 1);
+  function canvia(delta) {
+    setComptador((comptador) => comptador + delta);
   }
 
   function reset() {
-    setComptador((valor) => valor = 0);
+    setComptador((comptador) => comptador = 0);
   }
 
   let missatge = "";
@@ -26,21 +22,7 @@ function App() {
     missatge = "Encara no has començat.";
   }
 
-  return (
-    <main className='container'>
-      <h1 className='title-500 text-3xl sm:text-5xl'>Hola món!</h1>
-      <div className='content mt-5'>
-        <p className='title-100'>Clicks fets: {comptador}</p>
-        <p className='title-100'>{missatge}</p>
-
-        <div className='container-buttons'>
-          <button onClick={incrementar}>Incrementa</button>
-          <button onClick={decrementar}>Decrementa</button>
-          <button onClick={reset} disabled={comptador === 0}>Reset</button>
-        </div>
-      </div>
-    </main>
-  )
+  return <Comptador valor={comptador} missatge={missatge} onCanvia={canvia} onReinicia={reset}/>
 }
 
 export default App
