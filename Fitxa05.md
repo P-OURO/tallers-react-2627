@@ -1,6 +1,6 @@
 # Fitxa 05 — `localStorage` i persistència
 
-> **Objectiu general:** conservar les tasques i el filtre entre recàrregues, aprendre a llegir i desar dades amb `localStorage` i, al final, extreure aquesta lògica repetida a un hook reutilitzable.
+> **Objectiu general:** conservar les tasques i el filtre entre recàrregues, aprendre a llegir i desar dades amb `localStorage` i protegir l’aplicació davant de dades corruptes o invàlides.
 
 - **Temps estimat total:** 3 hores (2 h 30 min a classe; 15 min de lectura prèvia i 15 min de treball posterior).
 - **Requisits previs:** haver completat la [Fitxa 04](Fitxa04.md) o tenir un `hola-mon` equivalent amb un únic `TasquesProvider`, consum directe amb `useContext` i el filtre local a `App`.
@@ -8,14 +8,14 @@
 - **Abans de classe (15 min):** llegeix els apartats 1.2–1.5.
 - **Versions utilitzades:** React 19.3.1, Vite 8.3.4 i Tailwind CSS 4.3.3.
 
-> La Fitxa 04 continua intacta: no afegirem cap context de filtre ni cap hook per consumir el context. El nou `useLocalStorage` de l’Activitat 3 tindrà una altra finalitat: reutilitzar la mateixa lògica de persistència en dos estats diferents.
+> La Fitxa 04 continua intacta: no afegirem cap context de filtre ni cap hook personalitzat. Mantindrem la persistència explícita perquè es vegi clarament què es llegeix, què es valida i què es desa.
 
 ## Continguts
 
 1. Teoria
 2. Activitat 1 — Desar i recuperar les tasques
 3. Activitat 2 — Desar el filtre local
-4. Activitat 3 — `useLocalStorage` i persistència robusta
+4. Activitat 3 — Validació i persistència robusta
 5. Criteris de comprovació
 6. Continua el projecte
 7. Recursos
@@ -165,7 +165,7 @@ Durant les activitats 1 i 2 escriurem dues vegades el mateix patró per entendre
 2. validar el valor;
 3. desar-lo amb un efecte.
 
-A l’Activitat 3 l’extraurem perquè ja tindrem una repetició real.
+A l’Activitat 3 mantindrem el patró explícit i hi afegirem validació i tractament d’errors. La petita duplicació ens ajuda a veure que tasques i filtre tenen propietaris diferents.
 
 ### 1.7 Validar dades externes
 
@@ -197,59 +197,39 @@ function esFiltreValid(valor) {
 }
 ```
 
-### 1.8 Un hook justificat: `useLocalStorage`
+### 1.8 Persistència robusta sense amagar els passos
 
-Ara sí que tenim lògica reutilitzable. El hook no amaga `useContext`; encapsula lectura, validació, escriptura i tractament d’errors:
+A l’activitat final millorarem les dues funcions de lectura amb `try/catch`:
 
 ```js
-import { useEffect, useState } from 'react'
-
-function llegeixValor(clau, valorInicial, esValid) {
+function llegeixFiltre() {
   try {
-    const guardat = localStorage.getItem(clau)
-    if (!guardat) return valorInicial
+    const guardat = localStorage.getItem(CLAU_FILTRE)
+    if (!guardat) return 'totes'
 
-    const dades = JSON.parse(guardat)
-    return esValid(dades) ? dades : valorInicial
+    const valor = JSON.parse(guardat)
+    return FILTRES_VALIDS.includes(valor) ? valor : 'totes'
   } catch {
-    return valorInicial
+    return 'totes'
   }
 }
-
-export function useLocalStorage(clau, valorInicial, esValid = () => true) {
-  const [valor, setValor] = useState(() =>
-    llegeixValor(clau, valorInicial, esValid),
-  )
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(clau, JSON.stringify(valor))
-    } catch {
-      // L’aplicació continua funcionant en memòria.
-    }
-  }, [clau, valor])
-
-  return [valor, setValor]
-}
 ```
 
-El farem servir en dos llocs:
+També protegirem l’escriptura:
 
 ```jsx
-// TasquesProvider
-const [tasques, setTasques] = useLocalStorage(
-  'hola-mon.tasques',
-  [],
-  esLlistaDeTasques,
-)
-
-// App
-const [filtre, setFiltre] = useLocalStorage(
-  'hola-mon.filtre',
-  'totes',
-  esFiltreValid,
-)
+useEffect(() => {
+  try {
+    localStorage.setItem(CLAU_FILTRE, JSON.stringify(filtre))
+  } catch {
+    // L’aplicació continua funcionant en memòria.
+  }
+}, [filtre])
 ```
+
+El mateix patró s’aplica a les tasques dins de `TasquesProvider`. No l’extraurem encara a un hook: en aquesta fitxa prioritzem entendre bé `useState`, `useEffect`, JSON i la validació.
+
+> **Ampliació opcional:** quan aquests passos siguin familiars, pots provar d’extreure’ls a un hook `useLocalStorage`. No és un requisit ni forma part de la solució base.
 
 ### 1.9 Estructura final
 
@@ -258,8 +238,6 @@ src/
 ├── context/
 │   ├── TasquesContext.js
 │   └── TasquesProvider.jsx
-├── hooks/
-│   └── useLocalStorage.js
 ├── components/
 │   ├── FiltreTasques.jsx
 │   ├── FormulariTasca.jsx
@@ -393,49 +371,57 @@ La persistència pertany al component que posseeix l’estat. Els components fil
 
 ---
 
-## 4. Activitat 3 — `useLocalStorage` i persistència robusta
+## 4. Activitat 3 — Validació i persistència robusta
 
-**Objectiu:** eliminar la duplicació de les activitats anteriors i resistir JSON corrupte o dades invàlides.
+**Objectiu:** resistir JSON corrupte, dades invàlides i errors d’accés a `localStorage`, mantenint visibles tots els passos.
 
 **Temps estimat:** 45 minuts a classe i 15 minuts de treball posterior.
 
-### Esglaó 1 — Crear el hook
-
-1. Crea `src/hooks/useLocalStorage.js`.
-2. Implementa el hook de l’apartat 1.8.
-3. Captura errors tant a la lectura com a l’escriptura.
-4. Retorna `[valor, setValor]`.
-
-### Esglaó 2 — Utilitzar-lo al provider
+### Esglaó 1 — Validar les tasques
 
 A `TasquesProvider`:
 
-1. defineix els validadors de tasques;
-2. importa `useLocalStorage`;
-3. elimina el `useState`, la funció de lectura i l’efecte anteriors;
-4. inicialitza així:
+1. defineix `esTascaValida` i `esLlistaDeTasques` com a l’apartat 1.7;
+2. envolta la lectura amb `try/catch`;
+3. retorna `[]` si el JSON falla o les dades no són una llista de tasques vàlides.
 
-```jsx
-const [tasques, setTasques] = useLocalStorage(
-  CLAU_TASQUES,
-  TASQUES_INICIALS,
-  esLlistaDeTasques,
-)
+```js
+function llegeixTasques() {
+  try {
+    const guardades = localStorage.getItem(CLAU_TASQUES)
+    if (!guardades) return []
+
+    const dades = JSON.parse(guardades)
+    return esLlistaDeTasques(dades) ? dades : []
+  } catch {
+    return []
+  }
+}
 ```
 
-### Esglaó 3 — Utilitzar-lo a `App`
+### Esglaó 2 — Protegir l’escriptura de tasques
 
-Defineix `esFiltreValid` i substitueix la lectura i l’efecte del filtre:
+Envolta `setItem` amb `try/catch` sense canviar la dependència `[tasques]`.
 
 ```jsx
-const [filtre, setFiltre] = useLocalStorage(
-  CLAU_FILTRE,
-  'totes',
-  esFiltreValid,
-)
+useEffect(() => {
+  try {
+    localStorage.setItem(CLAU_TASQUES, JSON.stringify(tasques))
+  } catch {
+    // L’aplicació continua funcionant en memòria.
+  }
+}, [tasques])
 ```
 
-`App` continua sent el propietari del filtre. El hook només canvia com es conserva l’estat.
+### Esglaó 3 — Fer robust el filtre
+
+A `App`, afegeix `try/catch` a `llegeixFiltre` i a l’efecte que desa `filtre`, seguint l’exemple de l’apartat 1.8. Mantén:
+
+```jsx
+const [filtre, setFiltre] = useState(llegeixFiltre)
+```
+
+`App` continua sent el propietari del filtre i no apareix cap context ni hook nou.
 
 ### Esglaó 4 — Treball posterior: dades corruptes
 
@@ -450,6 +436,7 @@ En tots els casos, l’aplicació ha de continuar funcionant i recuperar el valo
 
 ### Esglaó 5 — Reptes opcionals
 
+- extreu la lògica repetida a un hook `useLocalStorage`;
 - afegeix una acció per reiniciar les tasques;
 - escolta l’esdeveniment `storage` per sincronitzar pestanyes;
 - versiona la clau com `hola-mon.tasques.v1`.
@@ -466,8 +453,6 @@ En tots els casos, l’aplicació ha de continuar funcionant i recuperar el valo
 - [ ] `FiltreTasques` i `LlistaTasques` continuen rebent el filtre per props.
 - [ ] La lectura inicial fa servir un inicialitzador mandrós.
 - [ ] L’escriptura es fa després del render amb `useEffect`.
-- [ ] `useLocalStorage` existeix a l’activitat final.
-- [ ] `TasquesProvider` i `App` reutilitzen `useLocalStorage`.
 - [ ] La lectura i l’escriptura capturen errors.
 - [ ] Les tasques i el filtre es validen.
 - [ ] L’estat derivat i el comptador no es persisteixen.
@@ -489,5 +474,4 @@ Guarda `hola-mon`. A la [Fitxa 06](Fitxa06.md) afegirem React Router. `TasquesPr
 - `JSON.parse()`: <https://developer.mozilla.org/ca/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse>
 - Inicialitzador mandrós: <https://react.dev/reference/react/useState#avoiding-recreating-the-initial-state>
 - `useEffect`: <https://react.dev/reference/react/useEffect>
-- Hooks personalitzats: <https://react.dev/learn/reusing-logic-with-custom-hooks>
 - Esdeveniment `storage`: <https://developer.mozilla.org/ca/docs/Web/API/Window/storage_event>
