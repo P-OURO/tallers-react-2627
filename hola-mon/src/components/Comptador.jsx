@@ -1,3 +1,5 @@
+import Boto from './Boto';
+
 function Comptador({ valor, missatge, onCanvia, onReinicia, pas = 1 }) {
     return (
         <main className='container'>
@@ -7,9 +9,9 @@ function Comptador({ valor, missatge, onCanvia, onReinicia, pas = 1 }) {
                 <p className='title-100'>{missatge}</p>
 
                 <div className='container-buttons'>
-                    <button onClick={()=>onCanvia(pas)}>Incrementa</button>
-                    <button onClick={()=>onCanvia(-pas)}>Decrementa</button>
-                    <button onClick={onReinicia} disabled={valor === 0}>Reset</button>
+                    <Boto onClick={()=>onCanvia(pas)} disabled={false}>Incrementa</Boto>
+                    <Boto variant="secundari" onClick={()=>onCanvia(-pas)} disabled={false}>Decrementa</Boto>
+                    <Boto variant="perill" onClick={onReinicia} disabled={valor === 0}>Reset</Boto>
                 </div>
             </div>
         </main>
