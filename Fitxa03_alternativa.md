@@ -1,6 +1,6 @@
 # Fitxa 03 — Formularis controlats i llista de tasques
 
-> **Proposta alternativa:** aquesta versió reorganitza la Fitxa 03 perquè cada concepte teòric aparegui just abans de l’activitat on s’utilitza. No feu aquestes activitats, ja que són un pel diferents i afectarien a les següents fitxes. Únicament llegiu-la si la "normal" us sembla molt confusa
+> **Proposta alternativa:** aquesta versió reorganitza la Fitxa 03 perquè cada concepte teòric aparegui just abans de l’activitat on s’utilitza. No feu aquestes activitats, ja que són un pel diferents i afectarien a les següents fitxes. Únicament llegiu-la si la "normal" us sembla molt confusa.
 
 > **Objectiu general:** continuar el projecte `hola-mon` de la Fitxa 02, afegir un formulari controlat per crear tasques, gestionar una llista amb estat, completar i eliminar elements, validar les dades i filtrar-les.
 
