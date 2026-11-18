@@ -19,7 +19,7 @@ fas servir Git: [git-scm.com](https://git-scm.com/downloads).
 
 1. [Fitxa 01 — Iniciació a React i Tailwind](Fitxa01.md)
 2. [Fitxa 02 — Components i props](Fitxa02.md)
-3. [Fitxa 03 — Estat i formularis](Fitxa03.md)
+3. [Fitxa 03 — Estat i formularis](Fitxa03.md) ([versió alternativa: teoria abans de cada activitat](Fitxa03_alternativa.md))
 4. [Fitxa 04 — Context i estat compartit](Fitxa04.md)
 5. [Fitxa 05 — Persistència amb localStorage](Fitxa05.md)
 6. [Fitxa 06 — Navegació amb React Router](Fitxa06.md)
