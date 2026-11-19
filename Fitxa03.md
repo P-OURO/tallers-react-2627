@@ -584,7 +584,7 @@ No guardis els comptadors en un `useState` separat: són estat derivat.
 
 Marca cada criteri quan el compleixis:
 
-- [ ] Has continuat dins del projecte `hola-mon`; no n'has creat un de nou.
+- [x] Has continuat dins del projecte `hola-mon`; no n'has creat un de nou.
 - [ ] El comptador de la Fitxa 02 continua funcionant.
 - [ ] Cada component viu en un fitxer propi dins de `src/components/` (excepte `App`).
 - [ ] L'input del formulari és controlat amb `value` i `onChange`.
