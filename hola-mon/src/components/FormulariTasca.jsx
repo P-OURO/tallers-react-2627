@@ -9,7 +9,7 @@ function FormulariTasca({ onAfegir }) {
         const textNet = text.trim();
 
         if (!textNet) {
-            setError("Escriu una tasca abans d'afegir-la.")
+            setError("Escriu una tasca abans d'afegir-la.");
             return
         }
 
@@ -21,7 +21,7 @@ function FormulariTasca({ onAfegir }) {
     return (
         <form className='bg-white flex flex-wrap flex-col' onSubmit={envia}>
             <label htmlFor="tasca">Nova tasca</label>
-            <input id="tasca" type="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="Tasca" autoComplete="off" />
+            <input id="tasca" type="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="Introdueix la tasca" autoComplete="off" />
             <Boto type="submit">Afegeix</Boto>
         </form>
     )

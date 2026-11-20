@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import Comptador from './components/Comptador';
 import Targeta from './components/Targeta';
-import FormulariTasca from './components/FormulariTasca'
+import FormulariTasca from './components/FormulariTasca';
+import LlistaTasques from './components/LlistaTasques';
 
 function App() {
   const [comptador, setComptador] = useState(0);
@@ -21,8 +22,7 @@ function App() {
       text: text,
       feta: false
     }
-    setTasques((llistaTasques) => [...llistaTasques, tascaNova]);
-    console.log(llistaTasques);
+    setTasques((tasques) => [...tasques, tascaNova]);
   }
 
   let missatge = "";
@@ -45,7 +45,10 @@ function App() {
         <Comptador valor={comptador} missatge={missatge} tipus={tipus} onCanvia={canvia} onReinicia={reset} />
       </Targeta>
 
-      <FormulariTasca onAfegir={afegeixTasca}></FormulariTasca>
+      <Targeta titol="Tasques">
+        <FormulariTasca onAfegir={afegeixTasca}></FormulariTasca>
+        <LlistaTasques tasques={tasques} ></LlistaTasques>
+      </Targeta>
     </main>
   )
 }
