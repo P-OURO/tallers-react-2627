@@ -1,5 +1,5 @@
 const ESTILS = {
-    info: 'text-amber-700',
+    info: 'text-black',
     exit: 'text-green-500',
     error: 'text-rose-500',
     base: 'title-100'

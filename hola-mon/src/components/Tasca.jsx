@@ -1,13 +1,13 @@
 import Boto from './Boto';
 
 function Tasca({ tasca, onToggle, onElimina }) {
-    let estilVariant = tasca.feta? 'text-gray line-through' : '';
+    let estilVariant = tasca.feta? 'text-gray-600 line-through font-semibold' : '';
 
     return (
-        <section>
+        <section className='flex flex-wrap gap-3 items-center'>
+            <input id={tasca.id} type="checkbox" checked={tasca.feta} onChange={() => onToggle()}/>
             <label htmlFor={tasca.id} className={estilVariant}>{tasca.text}</label>
-            <input id={tasca.id} type="checkbox" checked={tasca.feta} onChange={() => onToggle(tasca.id)}/>
-            <Boto key={tasca.id} variant="perill" onClick={() => onElimina(tasca.id)} aria-label={tasca.text}>Eliminar</Boto>
+            <Boto variant="perill" onClick={() => onElimina(tasca.id)} aria-label={tasca.text}>Eliminar</Boto>
         </section>
     )
 }
