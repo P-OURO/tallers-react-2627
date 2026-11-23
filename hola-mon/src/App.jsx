@@ -1,13 +1,17 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import Comptador from './components/Comptador';
 import Targeta from './components/Targeta';
 import FormulariTasca from './components/FormulariTasca';
 import LlistaTasques from './components/LlistaTasques';
 import FiltreTasques from './components/FiltreTasques';
 
+//Export default -> sin {}
+//Export sense default -> amb {}
+import { TasquesContext } from './context/TasquesContext';
+
 function App() {
   const [comptador, setComptador] = useState(0);
-  const [tasques, setTasques] = useState([]);
+  const { tasques, toggleTasca, eliminaTasca } = useContext(TasquesContext)
   const [filtre, setFiltre] = useState('totes')
 
   function canvia(delta) {
@@ -16,25 +20,6 @@ function App() {
 
   function reset() {
     setComptador((comptador) => comptador = 0);
-  }
-
-  function afegeixTasca(text) {
-    let tascaNova = {
-      id: crypto.randomUUID(),
-      text: text,
-      feta: false
-    }
-    setTasques((tasques) => [...tasques, tascaNova]);
-  }
-
-  function toggleTasca(id){
-    setTasques((anteriors) => anteriors.map((tasca) =>
-      tasca.id === id ? { ...tasca, feta: !tasca.feta } : tasca,
-    ));
-  }
-
-  function eliminaTasca(id){
-    setTasques((anteriors) => anteriors.filter((tasca) => tasca.id !== id));
   }
 
   //COMPTADOR
@@ -70,13 +55,14 @@ function App() {
   //FI TASQUES
 
   return (
+    
     <main className='container'>
       <Targeta titol="Comptador">
         <Comptador valor={comptador} missatge={missatge} tipus={tipus} onCanvia={canvia} onReinicia={reset} />
       </Targeta>
 
       <Targeta titol="Tasques">
-        <FormulariTasca onAfegir={afegeixTasca}></FormulariTasca>
+        <FormulariTasca/>
         <LlistaTasques tasques={tasquesFiltrades} onToggle={toggleTasca} onElimina={eliminaTasca} missatgeBuit={missatgeBuit}></LlistaTasques>
         <FiltreTasques filtre={filtre} onCanviaFiltre={setFiltre}></FiltreTasques>
       </Targeta>
