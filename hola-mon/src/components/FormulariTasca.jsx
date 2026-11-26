@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Boto from './Boto';
 import Missatge from './Missatge';
 
-function FormulariTasca({ onAfegir }) {
+import { TasquesContext } from '../context/TasquesContext';
+
+function FormulariTasca({}) {
+    const { afegeixTasca } = useContext(TasquesContext)
     const [text, setText] = useState("");
     const [error, setError] = useState("");
 
@@ -15,7 +18,7 @@ function FormulariTasca({ onAfegir }) {
             return
         }
 
-        onAfegir(textNet);
+        afegeixTasca(textNet);
         setText("");
         setError("");
     }
