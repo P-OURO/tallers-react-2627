@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { TasquesContext } from './TasquesContext.js'
 
 function TasquesProvider({ children }) {
@@ -25,6 +25,20 @@ function TasquesProvider({ children }) {
 
   // Tot el que tenim dins
   const value = { tasques, afegeixTasca, toggleTasca, eliminaTasca } 
+
+  const CLAU_TASQUES = 'hola-mon.tasques'
+
+  function llegeixTasques() {
+    const guardades = localStorage.getItem(CLAU_TASQUES)
+
+    if (!guardades) return []
+
+    const dades = JSON.parse(guardades)
+    return Array.isArray(dades) ? dades : []
+  }
+
+
+
 
   return (
     <TasquesContext.Provider value={value}>
