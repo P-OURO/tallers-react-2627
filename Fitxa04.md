@@ -373,22 +373,22 @@ Comprova amb React DevTools:
 
 ## 5. Criteris de comprovació
 
-- [ ] Has continuat dins de `hola-mon`.
-- [ ] Existeixen `TasquesContext.js` i `TasquesProvider.jsx`.
-- [ ] `TasquesContext.js` no defineix cap hook personalitzat.
-- [ ] `main.jsx` embolcalla `App` amb `TasquesProvider`.
-- [ ] Els consumidors fan servir `useContext(TasquesContext)` directament.
-- [ ] El provider conté `tasques` i les tres accions.
-- [ ] `FormulariTasca` no rep `onAfegir`.
-- [ ] `Tasca` només rep `tasca` i consumeix les accions.
-- [ ] `LlistaTasques` no transporta callbacks.
-- [ ] A l’activitat final, `LlistaTasques` rep només `filtre` i llegeix `tasques` del context.
-- [ ] `filtre` continua sent estat local d’`App`.
-- [ ] `FiltreTasques` continua fent servir props.
-- [ ] El text i l’error del formulari són estat local.
-- [ ] Els comptadors i la llista filtrada són estat derivat.
-- [ ] No hi ha cap context per al comptador ni per al filtre.
-- [ ] La consola no mostra errors ni avisos.
+- [x] Has continuat dins de `hola-mon`.
+- [x] Existeixen `TasquesContext.js` i `TasquesProvider.jsx`.
+- [x] `TasquesContext.js` no defineix cap hook personalitzat.
+- [x] `main.jsx` embolcalla `App` amb `TasquesProvider`.
+- [x] Els consumidors fan servir `useContext(TasquesContext)` directament.
+- [x] El provider conté `tasques` i les tres accions.
+- [x] `FormulariTasca` no rep `onAfegir`.
+- [x] `Tasca` només rep `tasca` i consumeix les accions.
+- [x] `LlistaTasques` no transporta callbacks.
+- [x] A l’activitat final, `LlistaTasques` rep només `filtre` i llegeix `tasques` del context.
+- [x] `filtre` continua sent estat local d’`App`.
+- [x] `FiltreTasques` continua fent servir props.
+- [x] El text i l’error del formulari són estat local.
+- [x] Els comptadors i la llista filtrada són estat derivat.
+- [x] No hi ha cap context per al comptador ni per al filtre.
+- [x] La consola no mostra errors ni avisos.
 
 ---
 

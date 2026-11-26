@@ -11,7 +11,7 @@ import { TasquesContext } from './context/TasquesContext';
 
 function App() {
   const [comptador, setComptador] = useState(0);
-  const { tasques, toggleTasca, eliminaTasca } = useContext(TasquesContext)
+  const { tasques } = useContext(TasquesContext)
   const [filtre, setFiltre] = useState('totes')
 
   function canvia(delta) {
@@ -38,22 +38,6 @@ function App() {
   }
   //FIN COMPTADOR
 
-  //TASQUES
-  const tasquesFiltrades = tasques.filter((tasca) => {
-    if (filtre === 'pendents') return !tasca.feta
-    if (filtre === 'fetes') return tasca.feta
-    return true
-  })
-
-  let missatgeBuit = 'Encara no hi ha tasques. Afegeix-ne una.'
-
-  if (tasques.length > 0 && filtre === 'pendents') {
-    missatgeBuit = 'No hi ha tasques pendents. Bona feina!';
-  } else if (tasques.length > 0 && filtre === 'fetes') {
-    missatgeBuit = 'Encara no has marcat cap tasca com a feta';
-  }
-  //FI TASQUES
-
   return (
     
     <main className='container'>
@@ -63,7 +47,7 @@ function App() {
 
       <Targeta titol="Tasques">
         <FormulariTasca/>
-        <LlistaTasques tasques={tasquesFiltrades} onToggle={toggleTasca} onElimina={eliminaTasca} missatgeBuit={missatgeBuit}></LlistaTasques>
+        <LlistaTasques filtre={filtre}></LlistaTasques>
         <FiltreTasques filtre={filtre} onCanviaFiltre={setFiltre}></FiltreTasques>
       </Targeta>
     </main>
