@@ -16,31 +16,6 @@ function App() {
   const { tasques } = useContext(TasquesContext);
   const [filtre, setFiltre] = useState(llegeixFiltre);
   
-
-  function canvia(delta) {
-    setComptador((comptador) => comptador + delta);
-  }
-
-  function reset() {
-    setComptador((comptador) => comptador = 0);
-  }
-
-  //COMPTADOR
-  let missatge = "";
-  let tipus = "";
-
-  if (comptador > 0) {
-    missatge = "Vas per bon camí!";
-    tipus = "exit";
-  } else if (comptador < 0) {
-    missatge = "Compte, vas enrere!";
-    tipus = "error";
-  } else {
-    missatge = "Encara no has començat.";
-    tipus = "info";
-  }
-  //FIN COMPTADOR
-
   function llegeixFiltre() {
     try {
       const guardat = localStorage.getItem(CLAU_FILTRE)
