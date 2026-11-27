@@ -25,7 +25,7 @@ function LlistaTasques({ filtre }) {
             {tasques.length === 0 && <Missatge text={missatgeBuit}/>}
             <ul className="mt-4">
                 {tasquesFiltrades.map((tasca) => (
-                    <Tasca tasca={tasca}/>
+                    <Tasca key={tasca.id} tasca={tasca}/>
                 ))}
             </ul>
         </section>

@@ -472,19 +472,19 @@ Els exemples de tasques són **text JSON per enganxar a `localStorage`**, no obj
 
 ## 5. Criteris de comprovació
 
-- [ ] Has continuat dins de `hola-mon`.
-- [ ] Només existeixen `TasquesContext` i `TasquesProvider`.
-- [ ] Els components consumeixen `TasquesContext` directament amb `useContext`.
-- [ ] `TasquesProvider` persisteix `tasques` a `hola-mon.tasques`.
-- [ ] `App` és el propietari de `filtre` i el persisteix a `hola-mon.filtre`.
-- [ ] `FiltreTasques` i `LlistaTasques` continuen rebent el filtre per props.
-- [ ] La lectura inicial fa servir *lazy initialization*.
-- [ ] L’escriptura es fa després del render amb `useEffect`.
-- [ ] La lectura i l’escriptura capturen errors.
-- [ ] Les tasques i el filtre es validen.
-- [ ] L’estat derivat i el comptador no es persisteixen.
-- [ ] No existeixen `FiltreTasquesContext`, `FiltreTasquesProvider`, `useTasques` ni `useFiltreTasques`.
-- [ ] La consola no mostra errors ni avisos.
+- [x] Has continuat dins de `hola-mon`.
+- [x] Només existeixen `TasquesContext` i `TasquesProvider`.
+- [x] Els components consumeixen `TasquesContext` directament amb `useContext`.
+- [x] `TasquesProvider` persisteix `tasques` a `hola-mon.tasques`.
+- [x] `App` és el propietari de `filtre` i el persisteix a `hola-mon.filtre`.
+- [x] `FiltreTasques` i `LlistaTasques` continuen rebent el filtre per props.
+- [x] La lectura inicial fa servir *lazy initialization*.
+- [x] L’escriptura es fa després del render amb `useEffect`.
+- [x] La lectura i l’escriptura capturen errors.
+- [x] Les tasques i el filtre es validen.
+- [x] L’estat derivat i el comptador no es persisteixen.
+- [x] No existeixen `FiltreTasquesContext`, `FiltreTasquesProvider`, `useTasques` ni `useFiltreTasques`.
+- [x] La consola no mostra errors ni avisos.
 
 ---
 
